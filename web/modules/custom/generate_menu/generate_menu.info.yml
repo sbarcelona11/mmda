@@ -1,0 +1,5 @@
+name: 'generate_menu'
+type: module
+description: 'MDDA Test - task 2'
+core: 8.x
+package: 'Custom'

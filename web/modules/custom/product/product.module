@@ -1,0 +1,61 @@
+<?php
+
+/**
+ * @file
+ * Contains product.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function product_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the product module.
+    case 'help.page.product':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('MDDA Test - task 1') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function product_theme() {
+  $theme = [];
+  $theme['product'] = [
+    'render element' => 'children',
+  ];
+  $theme['product_entity'] = [
+    'render element' => 'elements',
+    'file' => 'product_entity.page.inc',
+    'template' => 'product_entity',
+  ];
+  $theme['product_entity_content_add_list'] = [
+    'render element' => 'content',
+    'variables' => ['content' => NULL],
+    'file' => 'product_entity.page.inc',
+  ];
+  return $theme;
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK().
+ */
+function product_theme_suggestions_product_entity(array $variables) {
+  $suggestions = [];
+  $entity = $variables['elements']['#product_entity'];
+  $sanitized_view_mode = strtr($variables['elements']['#view_mode'], '.', '_');
+
+  $suggestions[] = 'product_entity__' . $sanitized_view_mode;
+  $suggestions[] = 'product_entity__' . $entity->bundle();
+  $suggestions[] = 'product_entity__' . $entity->bundle() . '__' . $sanitized_view_mode;
+  $suggestions[] = 'product_entity__' . $entity->id();
+  $suggestions[] = 'product_entity__' . $entity->id() . '__' . $sanitized_view_mode;
+  return $suggestions;
+}

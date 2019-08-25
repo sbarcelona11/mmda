@@ -1,0 +1,59 @@
+<?php
+
+/**
+ * Implements hook_install().
+ */
+function generate_menu_install() {
+  _generate_menus();
+}
+
+function _generate_menus() {
+  $json_config = __DIR__ . '/config/menus.json';
+  $data = file_get_contents($json_config);
+  $menus = json_decode($data, TRUE);
+
+  /** @var \Drupal\generate_menu\Service\MenuService $menu_service */
+  $menu_service = Drupal::service('generate_menus.menu_service');
+
+  foreach ($menus as $menu) {
+    $menu_service->removeMenuElements($menu['menu']);
+  }
+
+  drupal_flush_all_caches();
+
+  foreach ($menus as $menu) {
+    $tree = $menu['tree'];
+    $menu_name = $menu['menu'];
+
+    if ($menu_name != 'main') {
+      // Creamos el menú
+      if (!$menu_service->getMenuById($menu_name)) {
+        dump("entroooo");
+        Drupal::entityTypeManager()
+          ->getStorage('menu')
+          ->create([
+            'id' => $menu_name,
+            'label' => $menu['label'],
+            'description' => $menu['description'],
+          ])
+          ->save();
+      }
+    }
+
+    foreach ($tree as $element) {
+      $menu_service->createMenuElement($element, $menu_name);
+    }
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function generate_menu_uninstall() {
+  /** @var \Drupal\generate_menu\Service\MenuService $menu_service */
+  $menu_service = Drupal::service('generate_menus.menu_service');
+  $menu = $menu_service->getMenuById('meu_menu');
+  if (isset($menu)) {
+    $menu->delete();
+  }
+}

@@ -1,0 +1,26 @@
+id: migrate_custom
+label: Custom migrate to pass table legacy on product entity
+migration_group: default
+source:
+  plugin: migrate_custom_plugin_class
+process:
+  id: id
+  vid: id
+  type:
+    plugin: default_value
+    default_value: products
+  langcode:
+    plugin: default_value
+    default_value: en
+  status:
+    plugin: default_value
+    default_value: 1
+  user:
+    plugin: default_value
+    default_value: 1
+  name: name
+  price: price
+  description: description
+destination:
+  plugin: entity:product_entity
+migration_dependencies: {}

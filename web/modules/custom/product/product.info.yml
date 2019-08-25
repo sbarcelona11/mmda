@@ -1,0 +1,5 @@
+name: 'Product'
+type: module
+description: 'MDDA Test - task 1'
+core: 8.x
+package: 'Custom'

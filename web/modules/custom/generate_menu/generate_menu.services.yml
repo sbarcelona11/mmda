@@ -1,0 +1,4 @@
+services:
+  generate_menus.menu_service:
+    class: 'Drupal\generate_menu\Service\MenuService'
+    arguments: ['@entity_type.manager']

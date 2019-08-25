@@ -1,0 +1,36 @@
+<?php
+
+/**
+ * @file
+ * Contains generate_menu.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function generate_menu_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the generate_menu module.
+    case 'help.page.generate_menu':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('MDDA Test - task 2') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function generate_menu_theme() {
+  return [
+    'block__generate_menu' => [
+      'template' => 'block--generate-menu',
+      'base hook' => 'block'
+    ],
+  ];
+}

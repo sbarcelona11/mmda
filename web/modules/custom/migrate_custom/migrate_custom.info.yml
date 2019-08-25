@@ -1,0 +1,7 @@
+name: 'Migrate Custom'
+type: module
+description: 'MDDA Test - task 3'
+core: 8.x
+package: 'Custom'
+dependencies:
+  - product
